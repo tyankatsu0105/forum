@@ -1,0 +1,21 @@
+@startuml
+' 登場人物
+actor       Client
+participant Server
+database    DB
+
+== 投稿 ==
+autonumber
+Client -> Server : 投稿一覧を取得する
+Server -> DB : 投稿一覧を取得する
+return 投稿一覧を返す
+Server -> Client : 投稿一覧を返す
+Client -> Server : 投稿を送信する
+Server -> DB : 投稿を保存する
+Server -> DB : 投稿を取得する
+Server -> Client : 投稿が保存できたことを知らせる
+Client -> Server : 投稿一覧を取得する
+Server -> DB : 投稿一覧を取得する
+return 投稿一覧を返す
+Server -> Client : 投稿一覧を返す
+@enduml

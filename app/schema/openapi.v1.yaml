@@ -1,0 +1,109 @@
+openapi: 3.1.0
+info:
+  title: Forum
+  version: "1.0"
+  description: Forum schema
+servers:
+  - url: "http://localhost:3000"
+paths:
+  /posts:
+    get:
+      summary: Get Post list
+      tags: []
+      responses:
+        "200":
+          description: OK
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+              examples: {}
+            application/xml:
+              schema:
+                type: object
+                properties:
+                  total_size:
+                    type: number
+                    description: Total size of items
+                  items:
+                    type:
+                      - string
+                      - array
+                    items:
+                      $ref: "#/components/schemas/Post"
+                  page_token:
+                    type: string
+                  next_page_token:
+                    type: string
+                  previous_page_token:
+                    type: string
+                required:
+                  - total_size
+                  - page_token
+      operationId: list-posts
+      description: Get Post list
+      parameters:
+        - schema:
+            type: number
+          in: query
+          name: page_size
+          description: Size of list that required
+        - schema:
+            type: string
+          in: query
+          name: page_token
+          description: Page token that required (id)
+  "/posts/{id}":
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get Post item
+      tags: []
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+            application/xml:
+              schema:
+                type: object
+                properties: {}
+      operationId: get-post
+      description: Get Post item
+      parameters: []
+components:
+  schemas:
+    Post:
+      title: Post
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        content:
+          type: string
+        create_time:
+          type: string
+      required:
+        - id
+        - title
+        - content
+        - create_time
+      examples:
+        - id: 67A2ADDB-3E4F-438B-9D8E-AA01ABDFC48E
+          title: タイトル
+          content: |-
+            これはダミーテキストです。
+            改行も含めます。
+          create_time: "2017-01-15T01:30:15.01Z"
+  parameters: {}
